@@ -33,8 +33,9 @@ typedef struct t_start {
 } t_complete;
 
 //map
-void read_data_to_struct(t_complete *game, char *filename);
-int count_lines(const char *filename);
+void ft_read_data_to_struct(t_complete *game, char *filename);
+int ft_count_lines(const char *filename);
 int get_line_length(const char *line);
+int ft_audit_map(t_complete *game);
 
-# endif // SO_LONG_H
+# endif

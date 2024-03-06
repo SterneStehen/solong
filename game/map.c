@@ -5,7 +5,7 @@ int get_line_length(const char *line)
     return strlen(line);
 }
 
-int count_lines(const char *filename) 
+int ft_count_lines(const char *filename) 
 {
     FILE *file = fopen(filename, "r");
     if (!file) {
@@ -25,21 +25,28 @@ int count_lines(const char *filename)
     return count;
 }
 
-void read_data_to_struct(t_complete *game, char *filename)
+void ft_read_data_to_struct(t_complete *game, char *filename)
 {
-    game->fd = open(filename, O_RDONLY);
-    if (game->fd < 0) return;
-    game->heightmap = count_lines(filename);
+    int i;
+	i = 0;
+	game->fd = open(filename, O_RDONLY);
+    if (game->fd < 0)
+		return;
+    game->heightmap = ft_count_lines(filename);
     close(game->fd);
     game->fd = open(filename, O_RDONLY);
-    if (game->fd < 0) return;
+    if (game->fd < 0) 
+		return;
 
     game->map = (char **)malloc(sizeof(char *) * game->heightmap);
-    if (game->map == NULL) return; 
+    if (game->map == NULL) 
+		return; 
 
-    for (int i = 0; i < game->heightmap; i++) {
+    while (i < game->heightmap) 
+	{
         char *line = get_next_line(game->fd);
-        if (line) {
+        if (line) 
+		{
             game->map[i] = ft_strdup(line);
             if (game->map[i] == NULL) 
 			{
@@ -54,6 +61,7 @@ void read_data_to_struct(t_complete *game, char *filename)
             }
             free(line);
         }
+		i++;
     }
     close(game->fd);
 }

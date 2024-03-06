@@ -6,7 +6,7 @@ CC := gcc
 CFLAGS := -Wall -Wextra -Werror -Iheader/ -Iminilibx_linux
 
 # Добавляем все .c файлы из указанных папок
-SOURCE := game/*.c map/*.c
+SOURCE := game/*.c
 GETNEXTLINE := get_next/*.c
 
 # Пути и флаги для подключения библиотек

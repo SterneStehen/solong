@@ -8,19 +8,17 @@ int main(int argc, char **argv)
     }
 
     t_complete game;
-    read_data_to_struct(&game, argv[1]);
+    ft_read_data_to_struct(&game, argv[1]);
+	ft_audit_map(&game);
 
-    // Демонстрация работы с map
     for (int i = 0; i < game.heightmap; i++) {
         printf("result[%d] = %s\n", i, game.map[i]);
     }
 
-    // Освобождение выделенной памяти
     for (int i = 0; i < game.heightmap; i++) {
         free(game.map[i]);
     }
     free(game.map);
-	//free(game.exit);
 
     return 0;
 }
