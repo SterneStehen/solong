@@ -163,7 +163,7 @@ static int	keyboard_a_d(t_complete *game, int movement)
 // 	return (1);
 // }
 
-int controls_working(int command, t_complete *game)
+int put_controls(int command, t_complete *game)
 {
     int works = 0;
 

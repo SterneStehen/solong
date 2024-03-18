@@ -55,10 +55,16 @@ typedef struct t_start {
 } t_complete;
 
 
-//map
+//map 
+t_complete *create_complete_struct(void);
 void ft_read_data_to_struct(t_complete *game, char *filename);
-int ft_count_lines(const char *filename);
+char	**ft_allocate_map(int str);
+//int ft_count_lines(const char *filename);
+//int ft_count_lines(int fd);
 int get_line_length(const char *line);
+int	open_file(const char *filename);
+void	close_file(int fd);
+
 int ft_audit_map(t_complete *game);
 int check_walls(t_complete *comp);
 int check_required_elements(t_complete *comp);
@@ -71,6 +77,9 @@ int		ft_add_images(t_complete *game);
 void	place_elements_in_game(t_complete *game);
 
 //controls
-int controls_working(int command, t_complete *game);
+int put_controls(int command, t_complete *game);
+
+//utils
+void	ft_putstr(char *s);
 
 # endif

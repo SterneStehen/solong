@@ -29,62 +29,54 @@ char	*ft_returnline(char *remainder)
 	return (str);
 }
 
-char	*ft_remainderline(char *remainder)
+char *ft_remainderline(char *remainder)
 {
-	char *str;
-	//char *tmp;
-	int i;
-	int j;	
-	i = 0;
-	j = 0;
-	//str = NULL;
-	while (remainder[i] != '\0' && remainder[i] != '\n')
-		i++;
-	if(!remainder[i])
-	{
-		free(remainder);
-		return (NULL);
-	}
-	str = ft_strnew((ft_strlen(remainder) - i + 1));
-	if(!str)
-		return (NULL);
-	i++;
-	while (remainder[i] != '\0')
-		str[j++] = remainder[i++];
-	str[j] = '\0';
-	free(remainder);
-	return str;	
+    char *str;
+    int i = 0, j = 0;
+    
+    while (remainder[i] && remainder[i] != '\n')
+        i++;
+    if (!remainder[i])
+    {
+        free(remainder); // Освобождаем remainder если дошли до конца строки
+        return (NULL);
+    }
+    str = ft_strnew(ft_strlen(remainder) - i);
+    if (!str)
+    {
+        free(remainder); // Важно освободить remainder перед выходом, если не удается выделить память для str
+        return (NULL);
+    }
+    i++; // Пропускаем символ новой строки
+    while (remainder[i])
+        str[j++] = remainder[i++];
+    str[j] = '\0';
+    free(remainder); // Освобождаем старый remainder
+    return str;	
 }
 
-char	*ft_newline(int fd, char *remainder)
-
+char *ft_newline(int fd, char *remainder)
 {
-	char *buffer;
-	//char *str;
-	int len;
-	//int i;
-	len = 1;
-	//i = 0;
-	buffer = ft_strnew(BUFFER_SIZE+1);
-	if(!buffer)
-		return(NULL);
+    char *buffer;
+    int len = 1;
 
-	while (len != 0)
-	{
-		len = read(fd, buffer, BUFFER_SIZE);
-		if (len	== -1)
-		{
-			free(buffer);
-			
-			return (NULL);
-		}
-		buffer[len] = '\0';
-		remainder = ft_strjoin_free(remainder, buffer);
-		if((ft_strchr(remainder, '\n')))
-			len = 0;
-	}
-	free(buffer);
-	return (remainder);
+    buffer = ft_strnew(BUFFER_SIZE);
+    if (!buffer)
+        return (NULL);
+
+    while (len != 0 && !ft_strchr(remainder, '\n'))
+    {
+        len = read(fd, buffer, BUFFER_SIZE);
+        if (len == -1)
+        {
+            free(buffer); // Освобождаем buffer в случае ошибки чтения
+            return (NULL);
+        }
+        buffer[len] = '\0';
+        remainder = ft_strjoin_free(remainder, buffer); // Объединяем считанные данные
+    }
+    free(buffer); // Освобождаем buffer после использования
+    return (remainder);
 }
 
 
