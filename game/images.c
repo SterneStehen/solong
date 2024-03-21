@@ -6,17 +6,17 @@
 /*   By: smoreron <7353718@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:19:16 by smoreron          #+#    #+#             */
-/*   Updated: 2024/03/15 16:19:16 by smoreron         ###   ########.fr       */
+/*   Updated: 2024/03/21 04:18:06 by smoreron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "so_long.h"
 
 void	place_player(t_complete *game, int height, int width)
 {
 	mlx_put_image_to_window(game->mlxpointer,
-		game->winpointer, game->player, width * 40, height * 40);
+		game->winpointer, game->player, width * game->size,
+		height * game->size);
 	game->y_axis = height;
 	game->x_axis = width;
 }
@@ -24,7 +24,8 @@ void	place_player(t_complete *game, int height, int width)
 void	place_target(t_complete *game, int height, int width)
 {
 	mlx_put_image_to_window(game->mlxpointer,
-		game->winpointer, game->target, width * 40, height * 40);
+		game->winpointer, game->target, width * game->size,
+		height * game->size);
 	game->target++;
 }
 
@@ -44,6 +45,7 @@ void	images_in_game(t_complete *game)
 	game->target = mlx_xpm_file_to_image(game->mlxpointer,
 			"img/target.xpm", &i, &j);
 }
+
 void	adding_in_graphics(t_complete *game)
 {
 	int	height;
