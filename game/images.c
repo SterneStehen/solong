@@ -46,12 +46,12 @@ void	images_in_game(t_complete *game)
 			"img/target.xpm", &i, &j);
 }
 
+
 void	adding_in_graphics(t_complete *game)
 {
 	int	height;
 	int	width;
 
-	game->target = 0;
 	height = 0;
 	while (height < game->heightmap)
 	{
@@ -60,17 +60,17 @@ void	adding_in_graphics(t_complete *game)
 		{
 			if (game->map[height][width] == '1')
 				mlx_put_image_to_window(game->mlxpointer,
-					game->winpointer, game->wall, width * 40, height * 40);
+					game->winpointer, game->wall, width * game->size, height * game->size);
 			if (game->map[height][width] == 'C')
 				place_target(game, height, width);
 			if (game->map[height][width] == 'P')
 				place_player(game, height, width);
 			if (game->map[height][width] == 'E')
 				mlx_put_image_to_window(game->mlxpointer,
-					game->winpointer, game->exit, width * 40, height * 40);
+					game->winpointer, game->exit, width * game->size, height * game->size);
 			if (game->map[height][width] == '0')
 				mlx_put_image_to_window(game->mlxpointer,
-					game->winpointer, game->floor, width * 40, height * 40);
+					game->winpointer, game->floor, width * game->size, height * game->size);
 			width++;
 		}
 		height++;

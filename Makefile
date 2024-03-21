@@ -1,38 +1,30 @@
 NAME := so_long
 
-CC := clang
+CC := gcc
 
-# Флаги компиляции с указанием папок для заголовочных файлов
-CFLAGS := -Wall -Wextra -Werror -Iheader/ -Iminilibx
+# Указываем папку header для поиска заголовочных файлов
+CFLAGS := -Wall -Wextra -Werror -Iheader/ -Iminilibx_linux
 
-# Исходные файлы проекта
-SOURCE := $(wildcard game/*.c)
-GETNEXTLINE := $(wildcard get_next/*.c)
-PRINTF := $(wildcard printf/*.c)
+# Добавляем все .c файлы из указанных папок
+SOURCE := game/*.c
+GETNEXTLINE := get_next/*.c
 
-# Объектные файлы, созданные из исходных файлов
-OBJ := $(SOURCE:.c=.o) $(GETNEXTLINE:.c=.o) $(PRINTF:.c=.o)
+# Пути и флаги для подключения библиотек
+LIBRARY := -Lminilibx_linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 
-# Путь к папке MiniLibX
-MLX_PATH = ./minilibx
-
-# Флаги для библиотеки MiniLibX и дополнительных фреймворков macOS
-MLX_FLAGS := -L$(MLX_PATH) -lmlx -framework OpenGL -framework AppKit
+# Путь к minilibx
+MINILIBX := minilibx_linux/
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(MLX_FLAGS) -o $(NAME)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME):
+	make -C $(MINILIBX)
+	$(CC) $(CFLAGS) $(SOURCE) $(GETNEXTLINE) $(LIBRARY) -o $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	make clean -C $(MINILIBX)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -rf $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re

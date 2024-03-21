@@ -22,6 +22,7 @@ t_complete	*create_complete_struct(void)
 		return (NULL);
 	}
 	game->size = 48;
+	game->target = 0;
 	game->map = NULL;
 	game->floor = NULL;
 	game->wall = NULL;

@@ -30,42 +30,36 @@ int	ft_add_images(t_complete *game)
 	return (0);
 }
 
-void	place_elements_in_game(t_complete *game)
+void *get_image_for_char(t_complete *game, char map_char)
 {
-	int		height;
-	int		width;
-	void	*image_to_place;
-
-	game->targetcount = 0;
-	height = 0;
-	image_to_place = NULL;
-	while (height < game->heightmap)
+    if (map_char == '1') 
+        return game->wall;
+    else if (map_char == 'E')
+        return game->exit;
+    else if (map_char == '0')
+        return game->floor;
+    else if (map_char == 'C')
 	{
-		width = 0;
-		while (game->map[height][width])
-		{
-			if (game->map[height][width] == '1')
-				image_to_place = game->wall;
-			else if (game->map[height][width] == 'E')
-				image_to_place = game->exit;
-			else if (game->map[height][width] == '0')
-				image_to_place = game->floor;
-			else if (game->map[height][width] == 'C')
-			{
-				image_to_place = game->target;
-				game->targetcount++;
-			}
-			else if (game->map[height][width] == 'P')
-			{
-				image_to_place = game->player;
-				game->x_axis = width;
-				game->y_axis = height;
-			}
-			if (image_to_place != NULL)
-				mlx_put_image_to_window(game->mlxpointer, game->winpointer,
-					image_to_place, width * game->size, height * game->size);
-			width++;
-		}
-		height++;
-	}
+        game->targetcount++;
+        return game->target;
+    }
+	else if (map_char == 'P')
+	    return game->player;
+    return NULL;
+}
+
+// The main function simplified to meet the new structure.
+void place_elements_in_game(t_complete *game) {
+    for (int height = 0; height < game->heightmap; height++) {
+        for (int width = 0; game->map[height][width]; width++) {
+            // Set the current position before calling.
+            game->x_axis = width;
+            game->y_axis = height;
+            
+            void *image_to_place = get_image_for_char(game, game->map[height][width]);
+            if (image_to_place != NULL) {
+                mlx_put_image_to_window(game->mlxpointer, game->winpointer, image_to_place, width * game->size, height * game->size);
+            }
+        }
+    }
 }

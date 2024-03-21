@@ -55,6 +55,8 @@ int	ft_count_string(char *string)
 	return (width);
 }
 
+
+
 void	ft_populate_map(t_complete *game)
 {
 	int		i;
@@ -71,9 +73,7 @@ void	ft_populate_map(t_complete *game)
 		if (game->map[i] == NULL)
 		{
 			while (i-- > 0)
-			{
 				free(game->map[i]);
-			}
 			free(game->map);
 			game->map = NULL;
 			return ;
